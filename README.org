@@ -1,0 +1,33 @@
+#+title: RPI Pico wattmeter
+
+This folder contains the code that runs on the Raspberry pi pico microcontroller used to measure the voltage and current consumption of the Raspberry pi 4B that executes IoTVar.
+
+* Install dependencies
+#+begin_src bash
+GIT_DEPS="git"
+SDK_DEPS="cmake gcc-arm-none-eabi gcc g++"
+
+# Build full list of dependencies
+DEPS="$GIT_DEPS $SDK_DEPS"
+
+echo "Installing Dependencies"
+sudo apt update
+sudo apt install -y $DEPS
+
+echo "Downloading SDK"
+cd $HOME
+git clone https://github.com/raspberrypi/pico-sdk.git
+cd pico-sdk
+git submodule update --init
+# if you use zsh use ~/.zshrc instead of ~/.bashrc
+echo "export PICO_SDK_PATH="$HOME/pico-sdk/" >> ~/.bashrc
+#+end_src
+
+* Build
+#+begin_src bash
+mkdir build
+cd build
+cmake ..
+make
+#+end_src
+After building, the .uf2 file needed to load the code to the microcontroller can be found on the following path: ./build/src/RPiPico_wattmeter.uf2
